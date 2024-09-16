@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "savannah-informatics-back-end-challenge"
+version = "0.1.0"
+description = "Savannah Informatics Screening Test"
+authors = ["wxllxngton <jjngugi27@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+supabase = "^2.7.4"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
