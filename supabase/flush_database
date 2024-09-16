@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Script flushes the db and reconfigures Prisma
+
+# Generate the database
+sudo -u postgres psql -f savannah_info_db.sql
+
+# Introspection to update Prisma schema
+prisma db pull
+
+# To Interact with the db on the server
+prisma generate
