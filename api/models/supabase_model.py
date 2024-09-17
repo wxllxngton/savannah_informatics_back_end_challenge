@@ -66,5 +66,3 @@ class SupabaseModel:
         return query
 
 
-supabase_obj = SupabaseModel()
-print(supabase_obj.query_records('users'))

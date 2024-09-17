@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.10"
 supabase = "^2.7.4"
 python-dotenv = "^1.0.1"
+django = "^5.1.1"
+djangorestframework = "^3.15.2"
+africastalking = "^1.2.8"
 
 
 [build-system]
