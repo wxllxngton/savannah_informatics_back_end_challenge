@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from models.supabase_model import SupabaseModel
 from models.africastalking_model import AfricastalkingModel
-from helpers.helpers import generate_africastalking_message, flatten_query_dict
+from helpers.helpers import generate_africastalking_message
 
 # Initialize the SupabaseModel
 supabase_model = SupabaseModel()

@@ -33,17 +33,3 @@ def generate_africastalking_message(order_data: dict, customer_data: dict) -> st
     except KeyError as e:
         raise KeyError(f"Missing key in input data: {e}")
 
-def flatten_query_dict(query_dict):
-    """
-    Flattens a dictionary where the values are lists by extracting the first element
-    from each list, returning a simplified dictionary with singular values.
-
-    Parameters:
-        query_dict (dict): The dictionary to flatten, where each value is a list.
-
-    Returns:
-        dict: A new dictionary with the same keys but only the first element from each list as the value.
-    """
-    return {key: value[0] if isinstance(value, list) else value for key, value in query_dict.items()}
-
-
