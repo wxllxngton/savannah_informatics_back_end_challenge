@@ -2,9 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from models.supabase_model import SupabaseModel
+from models.africastalking_model import AfricastalkingModel
+from helpers.helpers import generate_africastalking_message, flatten_query_dict
 
 # Initialize the SupabaseModel
 supabase_model = SupabaseModel()
+
+# Initialize the AfricastalkingModel
+africastalking_model = AfricastalkingModel()
 
 # Class-based view for handling customer requests
 class CustomerView(APIView):
@@ -88,33 +93,25 @@ class OrderView(APIView):
             # Insert order data into the 'orders' table
             order_data = request.data
             response = supabase_model.insert_record('orders', order_data)
+            customer_data = supabase_model.query_records('customers', {"customerid": ("eq", order_data["customerid"])})
+
+            if not customer_data:
+                return Response({"error": "Customer not found!"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Set AT data
+            at_data = {
+                "message": generate_africastalking_message(response[0], customer_data[0]),
+                "recipients": [f"+{customer_data[0]['customerphoneno']}"],
+            }
+
+            # Send recipient confirmation sms
+            africastalking_model.send_sms(message=at_data["message"], recipients=at_data["recipients"])
+
+            # Load AT data into response
+            response[0]["message"] = at_data["message"]
+            response[0]["recipients"] = at_data["recipients"]
             return Response(response, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-# Class-based view for handling AfricasTalking requests
-class AfricasTalkingView(APIView):
-
-    def get(self, request):
-        """
-        GET request to retrieve AfricasTalking data from Supabase.
-        """
-        try:
-            # Fetch all AfricasTalking data from the 'AfricasTalkings' table
-            data = supabase_model.query_records('AfricasTalkings')
-            return Response(data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def post(self, request):
-        """
-        POST request to add a new AfricasTalking.
-        """
-        try:
-            # Insert AfricasTalking data into the 'AfricasTalkings' table
-            AfricasTalking_data = request.data
-            response = supabase_model.insert_record('AfricasTalkings', AfricasTalking_data)
-            return Response(response, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
