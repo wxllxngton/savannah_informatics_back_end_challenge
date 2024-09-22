@@ -27,8 +27,6 @@ def generate_africastalking_message(order_data: dict, customer_data: dict) -> st
             f"Your order (OrderID: {order_data['orderid']}) of {order_data['orderamount']}, "
             f"{order_data['orderitem']} is being processed."
         )
-        print("AT Message")
-        print(message)
         return message
     except KeyError as e:
         raise KeyError(f"Missing key in input data: {e}")
