@@ -18,6 +18,7 @@ djangorestframework==3.15.2
 exceptiongroup==1.2.2
 frozenlist==1.4.1
 gotrue==2.8.1
+gunicorn==23.0.0
 h11==0.14.0
 h2==4.1.0
 hpack==4.0.0
