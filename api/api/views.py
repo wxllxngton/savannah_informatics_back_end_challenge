@@ -4,12 +4,32 @@ from rest_framework import status
 from models.supabase_model import SupabaseModel
 from models.africastalking_model import AfricastalkingModel
 from helpers.helpers import generate_africastalking_message
+from django.http import HttpResponseRedirect
+
 
 # Initialize the SupabaseModel
 supabase_model = SupabaseModel()
 
 # Initialize the AfricastalkingModel
 africastalking_model = AfricastalkingModel()
+
+
+# Class-based view for handling index requests
+class IndexView(APIView):
+    def get(self, request):
+        """
+        GET request to redirect user to API Documentation.
+        """
+        try:
+            # URL to redirect to
+            redirect_url = "https://documenter.getpostman.com/view/21896699/2sAXqtbh1J"
+
+            # Redirect the user to the specified URL
+            return HttpResponseRedirect(redirect_url)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 # Class-based view for handling customer requests
 class CustomerView(APIView):
