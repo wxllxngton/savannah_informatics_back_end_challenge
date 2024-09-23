@@ -9,8 +9,10 @@ def jwt_get_username_from_payload_handler(payload):
     return username
 
 def jwt_decode_token(token):
+    # API Domain
+    domain = "https://savannah-informatics-back-end-challenge.onrender.com"
     header = jwt.get_unverified_header(token)
-    jwks = requests.get('https://{}/.well-known/jwks.json'.format('{yourDomain}')).json()
+    jwks = requests.get('https://{}/.well-known/jwks.json'.format(domain)).json()
     public_key = None
     for jwk in jwks['keys']:
         if jwk['kid'] == header['kid']:
