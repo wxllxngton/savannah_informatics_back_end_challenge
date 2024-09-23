@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-6eu)g25u-l#*e@&g#z-$c!35km++1m98j1vn&46yofk*or)23+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', "savannah-informatics-back-end-challenge.onrender.com"]
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', "savannah-informatics-back-end-challenge.onrender.com"]
 
 
 # Application definition
@@ -47,7 +47,36 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Auth0
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
 ]
+
+# Auth0
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
+]
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+JWT_AUTH = {
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
+        'auth0authorization.utils.jwt_get_username_from_payload_handler',
+    'JWT_DECODE_HANDLER':
+        'auth0authorization.utils.jwt_decode_token',
+    'JWT_ALGORITHM': 'RS256',
+    'JWT_AUDIENCE': '{yourApiIdentifier}',
+    'JWT_ISSUER': 'https://{yourDomain}/',
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
 
 ROOT_URLCONF = 'api.urls'
 
