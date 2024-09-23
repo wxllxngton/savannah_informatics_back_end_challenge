@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 domain = os.getenv("SERVICE_DOMAIN")
-api_identifier = os.getenv("AUTH0_CLIENT_ID")
+api_identifier = os.getenv("AUTH0_API_ID")
 
 def jwt_get_username_from_payload_handler(payload):
     username = payload.get('sub').replace('|', '.')
