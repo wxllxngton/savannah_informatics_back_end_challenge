@@ -22,7 +22,7 @@ class IndexView(APIView):
         """
         try:
             # URL to redirect to
-            redirect_url = "https://documenter.getpostman.com/view/21896699/2sAXqtbh1J"
+            redirect_url = "https://documenter.getpostman.com/view/21896699/2sAXqv4LN1"
 
             # Redirect the user to the specified URL
             return HttpResponseRedirect(redirect_url)
