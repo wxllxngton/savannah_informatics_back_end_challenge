@@ -10,7 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+
+# Load environment variables from .env file
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
+domain = os.getenv("SERVICE_DOMAIN")
+api_identifier = os.getenv("AUTH0_CLIENT_ID")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,8 +80,8 @@ JWT_AUTH = {
     'JWT_DECODE_HANDLER':
         '.utils.jwt_decode_token',
     'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': '{yourApiIdentifier}',
-    'JWT_ISSUER': 'https://{yourDomain}/',
+    'JWT_AUDIENCE': '{}'.format(api_identifier),
+    'JWT_ISSUER': 'https://{}/'.format(domain),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 

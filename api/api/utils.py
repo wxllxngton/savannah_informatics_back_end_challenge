@@ -1,7 +1,15 @@
+import os
 import json
 import jwt
 import requests
 from django.contrib.auth import authenticate
+from dotenv import load_dotenv
+
+
+# Load environment variables from .env file
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
+domain = os.getenv("SERVICE_DOMAIN")
+api_identifier = os.getenv("AUTH0_CLIENT_ID")
 
 def jwt_get_username_from_payload_handler(payload):
     username = payload.get('sub').replace('|', '.')
@@ -10,7 +18,6 @@ def jwt_get_username_from_payload_handler(payload):
 
 def jwt_decode_token(token):
     # API Domain
-    domain = "https://savannah-informatics-back-end-challenge.onrender.com"
     header = jwt.get_unverified_header(token)
     jwks = requests.get('https://{}/.well-known/jwks.json'.format(domain)).json()
     public_key = None
@@ -21,5 +28,5 @@ def jwt_decode_token(token):
     if public_key is None:
         raise Exception('Public key not found.')
 
-    issuer = 'https://{}/'.format('{yourDomain}')
-    return jwt.decode(token, public_key, audience='{yourApiIdentifier}', issuer=issuer, algorithms=['RS256'])
+    issuer = 'https://{}/'.format(domain)
+    return jwt.decode(token, public_key, audience=api_identifier, issuer=issuer, algorithms=['RS256'])
