@@ -1,0 +1,12 @@
+import http.client
+
+conn = http.client.HTTPConnection("savannah-informatics-back-end-challenge.onrender.com")
+
+headers = { 'authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IldUTjQwNG9UV1pjZ0U4dHpBVzBCcCJ9.eyJpc3MiOiJodHRwczovL2pvaG5vbWJ1eWEudXMuYXV0aDAuY29tLyIsInN1YiI6IjI3TkU3RU9BbGNNcklFUHMwZnVIV3I5cVptdGJBWlFUQGNsaWVudHMiLCJhdWQiOiJodHRwczovL3NhdmFubmFoLWluZm9ybWF0aWNzLWJhY2stZW5kLWNoYWxsZW5nZS5vbnJlbmRlci5jb20vYXBpIiwiaWF0IjoxNzI3MTk2OTk5LCJleHAiOjE3MjcyODMzOTksImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF6cCI6IjI3TkU3RU9BbGNNcklFUHMwZnVIV3I5cVptdGJBWlFUIn0.k88A0iakU-562IKIaR6ycQdvxJFgdG0V54qqr5YvdvnQPGcY0RBRNj4Y3I1k2ZBbpI0yqm_RMiRejUC-G_8oP8hG-nbDnUVgB1Z3xHUWyVK-ay4rxKGTTL3nW0W_vxM8Okz8q6Ji2ViqD8PTW4HDuu68jeOVJkDgi3SrEp2sXOqUS3Azx595IzCNp_K0AiUO2e738AWf3omTn66lTIJFRdSY2-sRY6iBGax-tHTAO32KODvBh421cDZuxB19rfq0hhaoW-qqfAMHactnydnBJ8yLgxfRiHAKyNB4qty4hABOFJ8voZHlYEzVQEYUYit8I2A3ljdWG3mesmweObn8OQ" }
+
+conn.request("GET", "/api/orders", headers=headers)
+
+res = conn.getresponse()
+data = res.read()
+
+print(data.decode("utf-8"))

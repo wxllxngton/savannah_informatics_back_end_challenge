@@ -93,6 +93,7 @@ class IndexView(APIView):
 
 # Class-based view for handling customer requests
 class CustomerView(APIView):
+    @requires_scope('read:customers')
     def get(self, request):
         """
         GET request to retrieve customer data from Supabase.
@@ -106,6 +107,7 @@ class CustomerView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @requires_scope('write:customer')
     def post(self, request):
         """
         POST request to add a new customer.
@@ -123,6 +125,7 @@ class CustomerView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @requires_scope('write:customer')
     def patch(self, request):
         """
         PATCH request to update a customer record.
@@ -132,7 +135,7 @@ class CustomerView(APIView):
 
         Returns:
             Response: A JSON response with the result of the update operation.
-                    If 'customerid' is missing, an error message is returned.
+                      If 'customerid' is missing, an error message is returned.
         """
         try:
             new_customer_data = request.data
@@ -150,6 +153,7 @@ class CustomerView(APIView):
 
 # Class-based view for handling order requests
 class OrderView(APIView):
+    @requires_scope('read:orders')
     def get(self, request):
         """
         GET request to retrieve order data from Supabase.
@@ -163,6 +167,7 @@ class OrderView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @requires_scope('write:order')
     def post(self, request):
         """
         POST request to add a new order and notify the customer via SMS.
