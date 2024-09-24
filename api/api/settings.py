@@ -16,8 +16,8 @@ from pathlib import Path
 
 # Load environment variables from .env file
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
-domain = os.getenv("SERVICE_DOMAIN")
-api_identifier = os.getenv("AUTH0_API_ID")
+auth0_domain = os.getenv("AUTH0_DOMAIN")
+auth0_api_identifier = os.getenv("AUTH0_API_ID")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,8 +79,8 @@ JWT_AUTH = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'api.utils.jwt_get_username_from_payload_handler',
     'JWT_DECODE_HANDLER': 'api.utils.jwt_decode_token',
     'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': '{}'.format(api_identifier),
-    'JWT_ISSUER': 'https://{}/'.format(domain),
+    'JWT_AUDIENCE': '{}'.format(auth0_api_identifier),
+    'JWT_ISSUER': 'https://{}/'.format(auth0_domain),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 
