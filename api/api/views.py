@@ -95,7 +95,6 @@ class IndexView(APIView):
 class CustomerView(APIView):
     permission_classes = [AllowAny]
 
-    @requires_scope('read:customers')
     def get(self, request):
         """
         GET request to retrieve customer data from Supabase.
@@ -155,9 +154,8 @@ class CustomerView(APIView):
 
 # Class-based view for handling order requests
 class OrderView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
-    @requires_scope('read:orders')
     def get(self, request):
         """
         GET request to retrieve order data from Supabase.
