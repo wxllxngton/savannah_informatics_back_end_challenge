@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from models.supabase_model import SupabaseModel
 from models.africastalking_model import AfricastalkingModel
 from helpers.helpers import generate_africastalking_message
@@ -93,7 +93,8 @@ class IndexView(APIView):
 
 # Class-based view for handling customer requests
 class CustomerView(APIView):
-    @requires_scope('read:customers')
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         """
         GET request to retrieve customer data from Supabase.
@@ -107,7 +108,6 @@ class CustomerView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    @requires_scope('write:customer')
     def post(self, request):
         """
         POST request to add a new customer.
@@ -125,7 +125,6 @@ class CustomerView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    @requires_scope('write:customer')
     def patch(self, request):
         """
         PATCH request to update a customer record.
@@ -149,6 +148,65 @@ class CustomerView(APIView):
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# class CustomerView(APIView):
+#     @requires_scope('read:customers')
+#     def get(self, request):
+#         """
+#         GET request to retrieve customer data from Supabase.
+
+#         Returns:
+#             Response: JSON data of all customers.
+#         """
+#         try:
+#             data = supabase_model.query_records('customers')
+#             return Response(data, status=status.HTTP_200_OK)
+#         except Exception as e:
+#             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     @requires_scope('write:customer')
+#     def post(self, request):
+#         """
+#         POST request to add a new customer.
+
+#         Parameters:
+#             request: The incoming HTTP request with customer data.
+
+#         Returns:
+#             Response: JSON response with the result of the customer creation.
+#         """
+#         try:
+#             customer_data = request.data
+#             response = supabase_model.insert_record('customers', customer_data)
+#             return Response(response, status=status.HTTP_201_CREATED)
+#         except Exception as e:
+#             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     @requires_scope('write:customer')
+#     def patch(self, request):
+#         """
+#         PATCH request to update a customer record.
+
+#         Parameters:
+#             request (Request): The request object containing the data to update.
+
+#         Returns:
+#             Response: A JSON response with the result of the update operation.
+#                       If 'customerid' is missing, an error message is returned.
+#         """
+#         try:
+#             new_customer_data = request.data
+
+#             if "customerid" not in new_customer_data:
+#                 return Response({"error": "Missing customerid!"}, status=status.HTTP_400_BAD_REQUEST)
+
+#             filters = {'customerid': ('eq', new_customer_data.pop("customerid"))}
+#             response = supabase_model.update_record('customers', new_customer_data, filters)
+
+#             return Response(response, status=status.HTTP_200_OK)
+#         except Exception as e:
+#             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # Class-based view for handling order requests
