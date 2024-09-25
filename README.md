@@ -6,7 +6,7 @@ Savannah Informatics Screening Test
 
 ## Overview
 
-This Django-based API service provides endpoints for managing customers and orders. It integrates with Supabase for database operations and Africa's Talking for SMS notifications. The service uses Auth0 for authentication and authorization.
+This Django-based API service hosted on Render(<a href="https://savannah-informatics-back-end-challenge.onrender.com">Link here</a>) provides endpoints for managing customers and orders. It integrates with Supabase for database operations and Africa's Talking for SMS notifications. The service uses Auth0 for authentication and authorization.
 
 ## Project Structure
 
